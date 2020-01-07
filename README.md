@@ -4,7 +4,7 @@
 
 ESP32 Code for Agri setup
 
-Program upload procedure:
+# Program upload procedure:
 ```
 > Download/add Espressif library for Arduino IDE (Sketch > Include Library > Manage Library).
 > Select board as "AI Thinker ESPCAM".
@@ -17,7 +17,7 @@ Program upload procedure:
   3V/5V(FTDI) to 3V/5V(ESPCAM)
 > Upload code.
 ```
-Usage:
+# Usage:
 MDNS responder will give hostname published inside the network. Eg., wisecam1
 ```
 > To capture one image and save to SPIFFS:
@@ -29,3 +29,8 @@ MDNS responder will give hostname published inside the network. Eg., wisecam1
 ```
 Use a script with curl or equivalent call to save the image from your ESPCAM to PC accessing wisecam1.local/saved-photo/
 (5 seconds gap is to be included between successive /capture and /saved-photo access.)
+
+# Hotspot/AP mode
+
+Toggle #define HOTSPOT to change mode.
+
