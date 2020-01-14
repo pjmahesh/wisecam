@@ -4,10 +4,10 @@ pjmahesh
 > Download/add Espressif library for Arduino IDE (Sketch > Include Library > Manage Library).
 > Select board as "AI Thinker ESPCAM".
 > Select PORT.
-> Connect 
+> Connect
   TX(FTDI) to U0R(ESPCAM)
   RX(FTDI) to U0T(ESPCAM)
-  I01(ESPCAM) to GND(ESPCAM) 
+  I01(ESPCAM) to GND(ESPCAM)
   GND(FTDI) to GND(ESPCAM)
   3V/5V(FTDI) to 3V/5V(ESPCAM)
 > Press reset button. Upload code.
@@ -135,7 +135,7 @@ void setup() {
   Serial.print("IP Address: http://");
   Serial.println(WiFi.localIP());
 
-  if (!MDNS.begin("wisecam7")) {
+  if (!MDNS.begin("wisecam13")) {
         Serial.println("Error setting up MDNS responder!");
         while(1) {
             delay(1000);
@@ -186,6 +186,7 @@ void setup() {
   config.pixel_format = PIXFORMAT_JPEG;
 
   if (psramFound()) {
+    Serial.print("psramFound");
     config.frame_size = FRAMESIZE_UXGA;
     config.jpeg_quality = 10;
     config.fb_count = 2;
@@ -211,6 +212,13 @@ void setup() {
     request->send_P(200, "text/plain", "Flash will be on while capture");
   });
 
+  server.on("/rssi", HTTP_GET, [](AsyncWebServerRequest * request) {
+    long rssi = WiFi.RSSI();
+    char buffer[50];
+    sprintf(buffer, "Current rssi value: %ld dBm", rssi);
+    request->send_P(200, "text/plain", buffer);
+  });
+
   server.on("/flash-off", HTTP_GET, [](AsyncWebServerRequest * request) {
     flash = false;
     request->send_P(200, "text/plain", "Flash will be off while capture");
@@ -232,23 +240,24 @@ void setup() {
 }
 
 void loop() {
-  
+
   if (takeNewPhoto) {
-    if (flash) 
+    if (flash)
     {
        digitalWrite(FLASH_LED, HIGH);
-       capturePhotoSaveSpiffs(); 
+       capturePhotoSaveSpiffs();
     }
-        
+
     else { //else required : GPIO misbehave fix
        capturePhotoSaveSpiffs();
     }
-       
+
     digitalWrite(FLASH_LED, LOW);
     takeNewPhoto = false;
   }
+
   delay(1);
-  
+
 }
 
 // Check if photo capture was successful
