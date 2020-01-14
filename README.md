@@ -16,6 +16,7 @@ ESP32 Code for Agri setup
   GND(FTDI) to GND(ESPCAM)
   3V/5V(FTDI) to 3V/5V(ESPCAM)
 > Upload code.
+Important to connect I01(ESPCAM) to GND(ESPCAM), while uploading.
 ```
 # Usage:
 MDNS responder will give hostname published inside the network. Eg., wisecam1
