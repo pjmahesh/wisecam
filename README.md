@@ -1,12 +1,12 @@
-# wisecam
+# WISECAM
 
 ESP32 Code for Agri setup
 
 # Program upload procedure:
 ```
-> Add Espressif boards https://dl.espressif.com/dl/package_esp32_index.json
+> Add Espressif board URL: https://dl.espressif.com/dl/package_esp32_index.json
   File > Preferences > Additional Board Manager URLs
-> Add Espressif board. Search Esp32 at Tools > Boards > Board Manager 
+> Add Espressif board to IDE. Search Esp32 at Tools > Boards > Board Manager 
 > Add https://github.com/me-no-dev/AsyncTCP to User > Documents > Arduono > library folder
 > Add https://github.com/me-no-dev/ESPAsyncWebServer/ to User > Documents > Arduono > library folder
 > Select board as "AI Thinker ESPCAM".
