@@ -1,7 +1,5 @@
 # wisecam
 
-# wisecam
-
 ESP32 Code for Agri setup
 
 # Program upload procedure:
