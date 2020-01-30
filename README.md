@@ -7,8 +7,8 @@ ESP32 Code for Agri setup
 > Add Espressif board URL: https://dl.espressif.com/dl/package_esp32_index.json
   File > Preferences > Additional Board Manager URLs
 > Add Espressif board to IDE. Search Esp32 at Tools > Boards > Board Manager 
-> Add https://github.com/me-no-dev/AsyncTCP to User > Documents > Arduono > library folder
-> Add https://github.com/me-no-dev/ESPAsyncWebServer/ to User > Documents > Arduono > library folder
+> Add https://github.com/me-no-dev/AsyncTCP to User > Documents > Arduino > library folder
+> Add https://github.com/me-no-dev/ESPAsyncWebServer/ to User > Documents > Arduino > library folder
 > Select board as "AI Thinker ESPCAM".
 > Select PORT.
 > Connect
@@ -22,7 +22,7 @@ ESP32 Code for Agri setup
 Important to connect I01(ESPCAM) to GND(ESPCAM)
 ```
 # Usage:
-MDNS responder will give hostname published inside the network. Eg., wisecam1
+MDNS responder will publish hostname inside the network. Eg., wisecam1
 ```
 > To capture one image and save to SPIFFS:
   wisecam1.local/capture/
@@ -38,5 +38,5 @@ Use a script and http call wisecam1.local/saved-photo/ to save the image from yo
 
 # Hotspot/AP mode
 
-Toggle #define HOTSPOT to change mode.
+Toggle #define HOTSPOT to change AP/WiFi mode.
 
