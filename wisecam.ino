@@ -1,11 +1,11 @@
 /*********
-mahesh@wisense.in
-
-> Add Espressif board URL: https://dl.espressif.com/dl/package_esp32_index.json
+  mahesh@wisense.in
+  
+> Add Espressif boards https://dl.espressif.com/dl/package_esp32_index.json, http://arduino.esp8266.com/stable/package_esp8266com_index.json
   File > Preferences > Additional Board Manager URLs
-> Add Espressif board to IDE. Search Esp32 at Tools > Boards > Board Manager 
-> Add https://github.com/me-no-dev/AsyncTCP to User > Documents > Arduino > library folder
-> Add https://github.com/me-no-dev/ESPAsyncWebServer/ to User > Documents > Arduino > library folder
+> Add Espressif board. Saerch Esp at Tools > Boards > Board Manager 
+> Add https://github.com/me-no-dev/AsyncTCP to User > Documents > Arduono > library folder
+> Add https://github.com/me-no-dev/ESPAsyncWebServer/ to User > Documents > Arduono > library folder
 > Select board as "AI Thinker ESPCAM".
 > Select PORT.
 > Connect
@@ -20,7 +20,7 @@ Important to connect I01(ESPCAM) to GND(ESPCAM)
 
 *********/
 
-#include "WiFi.h"
+#include <WiFi.h>
 #include "esp_camera.h"
 #include "esp_timer.h"
 #include "img_converters.h"
@@ -28,7 +28,7 @@ Important to connect I01(ESPCAM) to GND(ESPCAM)
 #include "soc/soc.h"           // Disable brownour problems
 #include "soc/rtc_cntl_reg.h"  // Disable brownour problems
 #include "driver/rtc_io.h"
-#include <ESPAsyncWebServer.h>
+#include "ESPAsyncWebServer.h"
 #include <StringArray.h>
 #include <SPIFFS.h>
 #include <FS.h>
@@ -42,9 +42,12 @@ Important to connect I01(ESPCAM) to GND(ESPCAM)
 const char* ssid = "wisecam";
 const char* password = "password";
 #else
-const char* ssid = "WiSe";
+const char* ssid = "WiSe-2G";
 const char* password = "Ccube4all";
 #endif
+
+//device will be broadcasted in this hostname.
+char* hostname = "wisecam1";
 
 bool flash =  false;
 
@@ -74,6 +77,7 @@ boolean takeNewPhoto = false;
 #define HREF_GPIO_NUM     23
 #define PCLK_GPIO_NUM     22
 #define FLASH_LED          4
+#define NOTIF_LED         33
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
@@ -119,7 +123,9 @@ void setup() {
 
   pinMode(FLASH_LED, OUTPUT);
   digitalWrite(FLASH_LED, LOW);
-  // Serial port for debugging purposes
+  pinMode(NOTIF_LED, OUTPUT);
+  digitalWrite(NOTIF_LED, LOW);
+  // Serial port for debugging
   Serial.begin(115200);
 
 
@@ -131,15 +137,24 @@ void setup() {
   Serial.println(WiFi.softAPIP());
 #else
   WiFi.begin(ssid, password);
+  int retryCnt = 0;
   while (WiFi.status() != WL_CONNECTED) {
   delay(1000);
   Serial.println("Connecting to WiFi...");
+  retryCnt++;
+  if(retryCnt > 20)
+    {
+      ESP.restart();
+    }
   }
+  digitalWrite(NOTIF_LED, HIGH);
+  
     // Print ESP32 Local IP Address
   Serial.print("IP Address: http://");
   Serial.println(WiFi.localIP());
 
-  if (!MDNS.begin("wisecam13")) {
+  
+  if (!MDNS.begin(hostname)) {
         Serial.println("Error setting up MDNS responder!");
         while(1) {
             delay(1000);
@@ -147,7 +162,9 @@ void setup() {
   }
   else
   {
-    Serial.println("mDNS responder started");
+    Serial.print("mDNS responder started - ");
+    Serial.println(hostname);
+    
   }
 
 #endif
@@ -258,6 +275,16 @@ void loop() {
 
     digitalWrite(FLASH_LED, LOW);
     takeNewPhoto = false;
+  }
+  
+  if(WiFi.status() != WL_CONNECTED)
+  {
+    digitalWrite(NOTIF_LED, LOW);
+    ESP.restart();
+  }
+  if(WiFi.status() == WL_CONNECTED)
+  {
+    digitalWrite(NOTIF_LED, HIGH);
   }
 
   delay(1);
