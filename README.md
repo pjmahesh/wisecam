@@ -6,17 +6,22 @@ ESP32 Code for Agri setup
 
 # Program upload procedure:
 ```
-> Download/add Espressif library for Arduino IDE (Sketch > Include Library > Manage Library).
+> Add Espressif boards https://dl.espressif.com/dl/package_esp32_index.json
+  File > Preferences > Additional Board Manager URLs
+> Add Espressif board. Search Esp32 at Tools > Boards > Board Manager 
+> Add https://github.com/me-no-dev/AsyncTCP to User > Documents > Arduono > library folder
+> Add https://github.com/me-no-dev/ESPAsyncWebServer/ to User > Documents > Arduono > library folder
 > Select board as "AI Thinker ESPCAM".
 > Select PORT.
-> Connect 
+> Connect
   TX(FTDI) to U0R(ESPCAM)
   RX(FTDI) to U0T(ESPCAM)
-  I01(ESPCAM) to GND(ESPCAM) 
+  I01(ESPCAM) to GND(ESPCAM)
   GND(FTDI) to GND(ESPCAM)
   3V/5V(FTDI) to 3V/5V(ESPCAM)
-> Upload code.
-Important to connect I01(ESPCAM) to GND(ESPCAM), while uploading.
+> Press and release reset button. Upload code.
+
+Important to connect I01(ESPCAM) to GND(ESPCAM)
 ```
 # Usage:
 MDNS responder will give hostname published inside the network. Eg., wisecam1
