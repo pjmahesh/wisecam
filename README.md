@@ -28,8 +28,10 @@ MDNS responder will give hostname published inside the network. Eg., wisecam1
   wisecam1.local/capture/
 > To view the last image raw:
   wisecam1.local/saved-photo/
-> To view the last image with rotate options:
+> To view the last image with viewer options:
   wisecam1.local/
+> To get wifi rssi value
+  wisecam1.local/rssi
 ```
 Use a script with curl or equivalent call to save the image from your ESPCAM to PC accessing wisecam1.local/saved-photo/
 (5 seconds gap is to be included between successive /capture and /saved-photo access.)
