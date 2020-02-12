@@ -33,7 +33,7 @@ MDNS responder will publish hostname inside the network. Eg., wisecam1
 > To get wifi rssi value
   wisecam1.local/rssi
 ```
-Use a script and http call wisecam1.local/saved-photo/ to save the image from your ESPCAM to PC/Linux
+Use a script to access wisecam1.local/saved-photo/ and save the image from your ESPCAM to PC/Linux
 (5 seconds gap is adviced in between successive /capture and /saved-photo access.)
 
 # Hotspot/AP mode
